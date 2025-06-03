@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>IBD Risk Calculator</title>
+</head>
+<body>
+  <h2>IBD Risk Calculator (Binary Logistic Model)</h2>
+
+  <label>Limberg level >1:
+    <select id="limberg">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br>
+
+  <label>Elevated CRP:
+    <select id="crp">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br>
+
+  <label>Elevated ESR:
+    <select id="esr">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br>
+
+  <label>Recurrent perianal abscess or fistula:
+    <select id="peri">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br>
+
+  <label>Elevated fecal calprotectin:
+    <select id="fc">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br>
+
+  <label>Hypoalbuminemia:
+    <select id="alb">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </label><br><br>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <h3 id="result"></h3>
+
+  <script>
+    function calculate() {
+      const limberg = parseInt(document.getElementById('limberg').value);
+      const crp = parseInt(document.getElementById('crp').value);
+      const esr = parseInt(document.getElementById('esr').value);
+      const peri = parseInt(document.getElementById('peri').value);
+      const fc = parseInt(document.getElementById('fc').value);
+      const alb = parseInt(document.getElementById('alb').value);
+
+      const logit = -5.3092 + 2.7526*limberg + 0.5974*crp + 1.8198*esr +
+                    2.4585*peri + 2.7163*fc + 2.0733*alb;
+      const prob = 1 / (1 + Math.exp(-logit));
+
+      document.getElementById('result').innerText = 
+        "Predicted probability of IBD: " + (prob*100).toFixed(2) + "%";
+    }
+  </script>
+</body>
+</html>
